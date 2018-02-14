@@ -4,7 +4,7 @@ from bingo.shuffler import Cards
 
 class TestCards(unittest.TestCase):
     def setUp(self):
-        self.cards = Cards().shuffle(3000)
+        self.cards = Cards().shuffle(13000)
 
     def test_no_repeated_numbers_in_card(self):
         for card in self.cards:

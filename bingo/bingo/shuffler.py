@@ -14,20 +14,24 @@ class Cards(object):
         with click.progressbar(length=int(cards), label=label, show_eta=True) as bar:
             while (len(_cards) < cards):
                 _shuffled = []
+                _numbers = [i for i in range(minNum, maxNum + 1)]
                 _rows = {}
                 _card = []
-
                 while(len(_rows) < rows):
                     _row = []
                     while (len(_row) < numbersPerRow):
-                        number = random.randint(minNum, maxNum)
-                        if not number in _shuffled:
-                            _row.append(number)
-                            _shuffled.append(number)
+                        i = random.randint(0, len(_numbers) - 1)
+                        number = _numbers[i]
+                        _numbers.remove(number)
+                        _row.append(number)
                     if not sorted(_row) in _shuffled_rows:
                         _rows[len(_rows) + 1] = _row
                         _shuffled_rows.append(sorted(_row))
                         _card = _card + _row
+                    else:
+                        _numbers = _numbers + _row
+                        _numbers = sorted(_numbers)
+                
                 if not sorted(_card) in _shuffled_cards:
                     _cards.append({'number':len(_cards) + 1, 'card':_rows})
                     _shuffled_cards.append(sorted(_card))
