@@ -2,6 +2,7 @@ import unittest
 
 from bingo.shuffler import Cards
 
+
 class TestCards(unittest.TestCase):
     def setUp(self):
         self.cards = Cards().shuffle(13000)
@@ -21,7 +22,7 @@ class TestCards(unittest.TestCase):
                 rows.append(sorted(card['card'][k]))
         unique_rows = []
         for row in rows:
-            if not row in unique_rows:
+            if row not in unique_rows:
                 unique_rows.append(row)
         self.assertEqual(len(rows), len(unique_rows))
 
@@ -37,6 +38,7 @@ class TestCards(unittest.TestCase):
             if card not in unique_cards:
                 unique_cards.append(card)
         self.assertEqual(len(cards), len(unique_cards))
+
 
 if __name__ == '__main__':
     unittest.main()

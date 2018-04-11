@@ -1,11 +1,13 @@
-import json, os, click
+import json
+import os
+import click
 from datetime import datetime as dt
 
 from bingo.shuffler import Cards
-from bingo.writer import Writer
 
 WORKING_DIR = os.getcwd()
 SCRIPT_ROOT = os.path.dirname(os.path.realpath(__file__))
+
 
 @click.command()
 @click.option('--cards', default=5, help='Number of cards for the set')
@@ -37,12 +39,14 @@ def shuffle(cards, minimum, maximum, rows, columns, data, confirm):
     d = ['%s %s' % (click.style('%s' % k, fg='red'), d[k]) for k in d.keys()]
     d = '\n'.join(d)
     if confirm:
-        click.confirm(click.style('\nDo you want to continue with the following options?', fg='green') + '\n\n%s\n' % d, abort=True)
+        m = '\n %s' % 'Do you want to continue with the following options?'
+        click.confirm(click.style(m, fg='green') + '\n\n%s\n' % d, abort=True)
     else:
         print click.style('\nWriting', fg='green') + '\n\n%s\n' % d
     # Shuffle cards.
     cards = Cards().shuffle(cards, minimum, maximum, rows, columns)
-    OUTPUT = os.path.join(data, '%s.json' % dt.now().strftime("%Y-%m-%dT%H-%M-%S"))
+    OUTPUT = os.path.join(data, '%s.json' %
+                          dt.now().strftime("%Y-%m-%dT%H-%M-%S"))
     with open(OUTPUT, 'w') as output:
         json.dump(cards, output)
     print '\n'
@@ -52,6 +56,7 @@ def shuffle(cards, minimum, maximum, rows, columns, data, confirm):
     print click.style('         SUCCESS         ', bg='green', fg='black')
     print click.style('                         ', bg='green')
     print '\n'
+
 
 if __name__ == '__main__':
     shuffle()
